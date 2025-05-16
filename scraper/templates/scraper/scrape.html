@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraper</title>
+</head>
+<body>
+    <h1>Web Scraper</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Scrape</button>
+    </form>
+    {% if data %}
+        <h2>Tables</h2>
+        {% for table in data.tables %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        {% for header in table.headers %}
+                            <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in table.rows %}
+                        <tr>
+                            {% for col in row %}
+                                <td>{{ col }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+        <h2>Images</h2>
+        {% for img_src in data.images %}
+            <img src="{{ img_src }}" alt="Image" width="200">
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
